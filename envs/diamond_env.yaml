@@ -2,3 +2,4 @@ channels:
   - bioconda
 dependencies:
   - diamond=2.1.7
+  - megan=6.24.20
