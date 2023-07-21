@@ -1,16 +1,18 @@
 from snakemake.io import glob_wildcards
 
 raw_dir = "/Users/udo/Downloads/ghana_test_files/"
+result_folder = "/Users/udo/Downloads/ghana_result/"
 
 (SAMPLES,) = glob_wildcards(raw_dir + "{sample}_R1.fastq.gz")
-result_folder = "/Users/udo/Downloads/ghana_result/"
+print(SAMPLES)
+
 scratch_dir = "/tmp/"
 reference_data_link = "https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.protein.faa.gz"
 megan_db_link ="https://software-ab.cs.uni-tuebingen.de/download/megan6/megan-map-Feb2022.db.zip"
 megan_mapping_fn ='megan-map-Feb2022.db'
 reference_data = 'protein_ref.faa'
-database_name = 'protein_ref_db'
-diamond_db_fn = result_folder + f"{database_name}.dmnd"
+database_name = result_folder + 'protein_ref_db'
+diamond_db_fn =  f"{database_name}.dmnd"
 
 rule all:
     input:
@@ -35,7 +37,7 @@ rule fastp:
         stdout="logs/fastp/{sample}.stdout.log",
         stderr="logs/fastp/{sample}.stderr.log"
     threads:
-        16
+        8
     shell:
          "fastp --in1 {input.R1} --in2 {input.R2} --out1 {output.R1} --out2 {output.R2} "
          "--unpaired1 {output.unpaired} --unpaired2 {output.unpaired} --merge "
@@ -82,7 +84,7 @@ rule create_diamond_db:
     threads:
         32
     shell:
-        "diamond makedb --in {input.db} -d {database_name}"
+        "diamond makedb --in {input.db} -d {database_name} > {log.stdout} 2> {log.stderr}"
 
 rule diamond:
     input:
@@ -100,7 +102,7 @@ rule diamond:
         32
     shell:
         "diamond blastx --db {input.db} --query {input.all} --min-orf 1 --threads {threads} "
-        "--ultra-sensitive  -e 0.001 -p {threads} -a {output.daa}> {log.stdout} 2> {log.stderr}; "
-        "daa-meganizer -i {input.daa} -mdb {input.megan_map}"
+        "--more-sensitive  -e 0.001 -p {threads} -a {output.daa}> {log.stdout} 2> {log.stderr}; "
+        "daa-meganizer -i {output.daa} -mdb {input.megan_map}"
 
 

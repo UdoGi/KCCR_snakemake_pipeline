@@ -2,6 +2,11 @@
 .snakemake
 *.faa.gz
 *.faa
+megan-map-Feb2022.db
+megan-map-Feb2022.db.zip
+protein_ref.faa
+protein_ref_db.dmnd
+fastp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
