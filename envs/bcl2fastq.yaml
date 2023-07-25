@@ -1,0 +1,4 @@
+channels:
+  - bih-cubi
+dependencies:
+  - bcl2fastq2

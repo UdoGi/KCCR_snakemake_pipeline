@@ -1,7 +1,7 @@
 from snakemake.io import glob_wildcards
 
-raw_dir = "/Users/udo/Downloads/ghana_test_files/"
-result_folder = "/Users/udo/Downloads/ghana_result/"
+raw_dir = "/vagrant/ghana_test_files/"
+result_folder = "/vagrant/ghana_result/"
 
 (SAMPLES,) = glob_wildcards(raw_dir + "{sample}_R1.fastq.gz")
 print(SAMPLES)
