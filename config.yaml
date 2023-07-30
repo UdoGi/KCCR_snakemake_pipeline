@@ -1,8 +1,0 @@
-result_folder: "/Users/udo/Downloads/ghana_result/"
-scratch_dir: "/tmp/"
-reference_data_link: "https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.protein.faa.gz"
-reference_data: 'protein_ref.faa'
-
-
-diamond:
-  diamond_fields: "qtitle stitle bitscore evalue qframe qseq qstart qend sseq sstart send slen btop nident pident positive ppos"

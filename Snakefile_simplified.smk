@@ -3,10 +3,9 @@ from snakemake.io import glob_wildcards
 raw_dir = "/vagrant/ghana_test_files/"
 result_folder = "/vagrant/ghana_result/"
 
-(SAMPLES,) = glob_wildcards(raw_dir + "{sample}_R1.fastq.gz")
+(SAMPLES,) = glob_wildcards(raw_dir + "{sample}_R1_001.fastq.gz")
 print(SAMPLES)
 
-scratch_dir = "/tmp/"
 reference_data_link = "https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.protein.faa.gz"
 megan_db_link ="https://software-ab.cs.uni-tuebingen.de/download/megan6/megan-map-Feb2022.db.zip"
 megan_mapping_fn ='megan-map-Feb2022.db'
@@ -20,15 +19,15 @@ rule all:
 
 rule fastp:
     input:
-        R1=raw_dir + "{sample}_R1.fastq.gz",
-        R2=raw_dir + "{sample}_R2.fastq.gz"
+        R1=raw_dir + "{sample}_R1_001.fastq.gz",
+        R2=raw_dir + "{sample}_R2_001.fastq.gz"
     output:
-        R1=scratch_dir + "{sample}_R1.fastp.fastq.gz",
-        R2=scratch_dir + "{sample}_R2.fastp.fastq.gz",
-        unpaired=temp(scratch_dir + '{sample}_unpaired.fastp.fastq.gz'),
-        merge=temp(scratch_dir + '{sample}_merged.fastp.fastq.gz'),
-        singletons=scratch_dir + '{sample}_singletons.fastp.fastq.gz',
-        all=scratch_dir + '{sample}_all.fastp.fastq.gz',
+        R1=result_folder + "fastp/{sample}_R1.fastp.fastq.gz",
+        R2=result_folder + "fastp/{sample}_R2.fastp.fastq.gz",
+        unpaired=temp(result_folder + 'fastp/{sample}_unpaired.fastp.fastq.gz'),
+        merge=temp(result_folder + 'fastp/{sample}_merged.fastp.fastq.gz'),
+        singletons=result_folder + 'fastp/{sample}_singletons.fastp.fastq.gz',
+        all=result_folder + 'fastp/{sample}_all.fastp.fastq.gz',
         json='fastp' + '/{sample}.fastp.json',
         html='fastp' + '/{sample}.html'
     conda:
@@ -90,7 +89,7 @@ rule diamond:
     input:
         db=diamond_db_fn,
         megan_map=megan_mapping_fn,
-        all=scratch_dir + '{sample}_all.fastp.fastq.gz',
+        all=result_folder + 'fastp/{sample}_all.fastp.fastq.gz',
     output:
         daa=result_folder + "diamond/{sample}.daa",
     conda:

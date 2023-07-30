@@ -1,7 +1,6 @@
 
 rule all:
-    input:
-        "output_data/my_output.txt"
+    input: "output_data/my_output.txt"
 
 rule rule1:
     input:
@@ -9,4 +8,4 @@ rule rule1:
     output:
         txt_out="output_data/my_output.txt"
     shell:
-        "wc -l data/1-karamazov.txt > output_data/my_output.txt"
+        "wc -l {input.text_file} > {output.txt_out}"

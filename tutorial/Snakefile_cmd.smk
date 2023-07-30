@@ -1,4 +1,3 @@
-from pathlib import Path
 
 (SAMPLES,) = glob_wildcards("data/{sample}.txt")
 print(SAMPLES)

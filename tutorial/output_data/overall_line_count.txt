@@ -1,3 +1,0 @@
-      59 data/1-karamazov.txt
-     121 data/2-trial.txt
-      58 data/3-ulysses.txt
