@@ -8,9 +8,9 @@ rule all:
 
 rule count_lines:
     input:
-        text_file="data/{prefix}.txt"
+        text_file="data/{sample}.txt"
     output:
-        txt_out="output_data/{prefix}_counts.txt"
+        txt_out="output_data/{sample}_counts.txt"
     shell:
         "wc -l {input.text_file} > {output.txt_out}"
 

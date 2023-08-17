@@ -6,7 +6,9 @@ result_folder = "/vagrant/ghana_result/"
 (SAMPLES,) = glob_wildcards(raw_dir + "{sample}_R1_001.fastq.gz")
 print(SAMPLES)
 
+# link to download a reference fasta file for diamond
 reference_data_link = "https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.protein.faa.gz"
+# link to download the linking file for megan, linking protein-ids to taxonomic ids
 megan_db_link ="https://software-ab.cs.uni-tuebingen.de/download/megan6/megan-map-Feb2022.db.zip"
 megan_mapping_fn ='megan-map-Feb2022.db'
 reference_data = 'protein_ref.faa'
@@ -44,7 +46,7 @@ rule fastp:
          "--json {output.json} --html {output.html} --thread {threads} > {log.stdout} 2> {log.stderr};"
          "touch {output.unpaired} {output.merge};"
          "cat {output.unpaired} {output.merge} > {output.singletons};"
-         "cat {output.singletons} {output.R1} {output.R2}> {output.all}"
+         "cat {output.singletons} {output.R1} {output.R2} > {output.all}"
 
 rule download_protein_ref:
     output:
